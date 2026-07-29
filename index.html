@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوابة خورفكان الإدارية</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #f1f5f9; }
+  #appFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  /* شاشة تحميل بسيطة تظهر لحد ما الـ iframe يخلص تحميل */
+  #loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0f766e, #134e4a);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    z-index: 10;
+    transition: opacity 0.4s ease;
+  }
+  #loadingScreen.hidden { opacity: 0; pointer-events: none; }
+  .spinner {
+    width: 44px; height: 44px;
+    border: 4px solid rgba(255,255,255,0.25);
+    border-top-color: #e6b325;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+  <!-- شاشة تحميل -->
+  <div id="loadingScreen">
+    <div class="spinner"></div>
+    <div style="font-weight:700; font-size:16px;">جارِ تحميل بوابة خورفكان الإدارية...</div>
+  </div>
+
+  <!--
+    ⚠️ عدّل الرابط تحت واحط رابط الويب أب بتاعك (اللي بينتهي بـ /exec)
+    مثال: https://script.google.com/macros/s/AKfycb.../exec
+  -->
+  <iframe id="appFrame"
+    src="ضع_رابط_الويب_أب_هنا"
+    title="بوابة خورفكان الإدارية"
+    allow="clipboard-write"
+  ></iframe>
+
+  <script>
+    const frame = document.getElementById('appFrame');
+    const loading = document.getElementById('loadingScreen');
+    frame.addEventListener('load', () => {
+      loading.classList.add('hidden');
+    });
+    // احتياط: لو أي مشكلة في حدث load، اخفي شاشة التحميل بعد 6 ثواني على أي حال
+    setTimeout(() => loading.classList.add('hidden'), 6000);
+  </script>
+
+</body>
+</html>
