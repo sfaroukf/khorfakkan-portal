@@ -46,9 +46,9 @@
 </head>
 <body>
 
-  <h2>🎤 تحدّث الآن</h2>
+  <h2>🎤 بسمعك دلوقتي...</h2>
   <button id="micBtn">🎤</button>
-  <div id="status">دوس على المايك وابدأ الكلام</div>
+  <div id="status">جهّز نفسك وابدأ الكلام</div>
   <div id="transcript"></div>
 
   <script>
@@ -65,7 +65,7 @@
       statusEl.textContent = 'المتصفح ده مش بيدعم التسجيل الصوتي. جرّب من Chrome.';
       micBtn.disabled = true;
     } else {
-      micBtn.addEventListener('click', () => {
+      function startListening() {
         const recognition = new SpeechRec();
         recognition.lang = lang;
         recognition.interimResults = false;
@@ -88,11 +88,11 @@
         recognition.onerror = (e) => {
           micBtn.classList.remove('listening');
           if (e.error === 'not-allowed') {
-            statusEl.textContent = 'محتاج تسمح بصلاحية المايك من إعدادات المتصفح.';
+            statusEl.textContent = 'محتاج تسمح بصلاحية المايك — دوس على الزر تاني بعد السماح.';
           } else if (e.error === 'no-speech') {
-            statusEl.textContent = 'مسمعتش صوت. جرّب تاني.';
+            statusEl.textContent = 'مسمعتش صوت. دوس على المايك وجرّب تاني.';
           } else {
-            statusEl.textContent = 'حصل خطأ (' + e.error + '). جرّب تاني.';
+            statusEl.textContent = 'حصل خطأ (' + e.error + '). دوس على المايك وجرّب تاني.';
           }
         };
 
@@ -103,10 +103,18 @@
         try {
           recognition.start();
         } catch (e) {
-          statusEl.textContent = 'تعذر بدء التسجيل. جرّب تاني.';
+          statusEl.textContent = 'دوس على المايك عشان تبدأ.';
           micBtn.classList.remove('listening');
         }
+      }
+
+      // بدء تلقائي فور تحميل الصفحة — يقلل الاحتكاك لضغطة واحدة فقط في التطبيق الرئيسي
+      // (بعض المتصفحات ممكن تمنع البدء التلقائي، فالزر بيفضل شغّال كخيار احتياطي فورًا)
+      window.addEventListener('load', () => {
+        setTimeout(startListening, 250);
       });
+
+      micBtn.addEventListener('click', startListening);
     }
   </script>
 
