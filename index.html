@@ -73,6 +73,14 @@
     // بالكامل، فرابط khorfakkan-portal.pages.dev يفضل ثابت في المتصفح مهما تنقّلت جوّه النظام
     window.addEventListener('message', function (event) {
       console.log('[index.html] رسالة وصلت من:', event.origin, event.data);
+      // رد فوري على استكشاف وجود الغلاف — بيحصل وقت تحميل كل صفحة (مش وقت التنقّل نفسه)
+      // عشان النظام يحسم بدري وبثقة إن الغلاف موجود، من غير أي سباق زمني وقت الضغط على رابط
+      if (event.data && event.data.type === 'khorfakkanPing') {
+        if (event.source) {
+          try { event.source.postMessage({ type: 'khorfakkanPingAck' }, '*'); } catch (e) { /* تجاهل */ }
+        }
+        return;
+      }
       if (event.data && event.data.type === 'khorfakkanNavigate' && event.data.url) {
         console.log('[index.html] تنفيذ التنقّل — تغيير src للإطار');
         frame.src = event.data.url;
