@@ -72,7 +72,9 @@
     // استقبال طلبات التنقّل من داخل النظام — بنغيّر مصدر الإطار مباشرة بدل تنقّل الصفحة
     // بالكامل، فرابط khorfakkan-portal.pages.dev يفضل ثابت في المتصفح مهما تنقّلت جوّه النظام
     window.addEventListener('message', function (event) {
+      console.log('[index.html] رسالة وصلت من:', event.origin, event.data);
       if (event.data && event.data.type === 'khorfakkanNavigate' && event.data.url) {
+        console.log('[index.html] تنفيذ التنقّل — تغيير src للإطار');
         frame.src = event.data.url;
         if (event.source) {
           try { event.source.postMessage({ type: 'khorfakkanNavigateAck' }, '*'); } catch (e) { /* تجاهل */ }
