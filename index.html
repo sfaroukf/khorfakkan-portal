@@ -1,374 +1,85 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <title>بوابة خورفكان الإدارية</title>
-
-  <style>
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #f8fafc;
-    }
-
-    /* =========================
-       شاشة التحميل
-       ========================= */
-
-    #loadingScreen {
-
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        linear-gradient(
-          135deg,
-          #0f766e,
-          #134e4a
-        );
-
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: center;
-
-      justify-content: center;
-
-      color: #fff;
-
-      font-family:
-        'Segoe UI',
-        Tahoma,
-        Arial,
-        sans-serif;
-
-      z-index: 99999;
-
-      transition:
-        opacity .4s ease,
-        visibility .4s ease;
-    }
-
-    #loadingScreen.hidden {
-
-      opacity: 0;
-
-      visibility: hidden;
-
-      pointer-events: none;
-    }
-
-    .spinner {
-
-      width: 48px;
-
-      height: 48px;
-
-      border:
-        4px solid
-        rgba(255,255,255,0.25);
-
-      border-top-color:
-        #e6b325;
-
-      border-radius: 50%;
-
-      animation:
-        spin .9s linear infinite;
-
-      margin-bottom: 20px;
-    }
-
-    @keyframes spin {
-
-      to {
-        transform: rotate(360deg);
-      }
-
-    }
-
-    #loadingScreen h1 {
-
-      font-size: 17px;
-
-      font-weight: 700;
-
-      margin-bottom: 6px;
-    }
-
-    #loadingScreen p {
-
-      font-size: 13px;
-
-      opacity: .8;
-    }
-
-
-    /* =========================
-       التطبيق
-       ========================= */
-
-    #appWrapper {
-
-      position: fixed;
-
-      inset: 0;
-
-      width: 100%;
-
-      height: 100%;
-
-      overflow: hidden;
-
-      background: #f8fafc;
-    }
-
-
-    /*
-      نخفي شريط Google Apps Script
-      الموجود أعلى iframe.
-
-      ارتفاع الشريط تقريبًا 44px.
-    */
-
-    #frameContainer {
-
-      position: absolute;
-
-      top: -44px;
-
-      left: 0;
-
-      right: 0;
-
-      bottom: 0;
-
-      overflow: hidden;
-    }
-
-
-    #appFrame {
-
-      position: absolute;
-
-      top: 0;
-
-      left: 0;
-
-      width: 100%;
-
-      height: calc(100% + 44px);
-
-      border: none;
-
-      display: block;
-
-      background: #f8fafc;
-    }
-
-
-    /* =========================
-       موبايل
-       ========================= */
-
-    @media (max-width: 768px) {
-
-      #frameContainer {
-        top: -44px;
-      }
-
-      #appFrame {
-        height: calc(100% + 44px);
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>بوابة خورفكان الإدارية</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #f8fafc; }
+
+  #loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0f766e, #134e4a);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    z-index: 10;
+    transition: opacity .4s ease;
+  }
+  #loadingScreen.hidden { opacity: 0; pointer-events: none; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid rgba(255,255,255,0.25);
+    border-top-color: #e6b325;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loadingScreen h1 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  #loadingScreen p { font-size: 13px; opacity: 0.8; }
+
+  #appFrame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
 </head>
-
-
 <body>
 
-
-  <!-- =========================
-       شاشة التحميل
-       ========================= -->
-
   <div id="loadingScreen">
-
     <div class="spinner"></div>
-
-    <h1>
-      بوابة خورفكان الإدارية
-    </h1>
-
-    <p>
-      جارِ تحميل النظام...
-    </p>
-
+    <h1>بوابة خورفكان الإدارية</h1>
+    <p>جارِ تحميل النظام...</p>
   </div>
 
-
-  <!-- =========================
-       التطبيق
-       ========================= -->
-
-  <div id="appWrapper">
-
-    <div id="frameContainer">
-
-      <iframe
-
-        id="appFrame"
-
-        src="https://script.google.com/macros/s/AKfycbxH3Q99G0dM0xxWwKSOO3Lds9HJnPi0UG_JCpzHXRAEx3o2tf18mI0Zfws7T0bjsKlNLg/exec?page=Dashboard&_r=1786445110139"
-
-        allow="clipboard-write; microphone"
-
-        referrerpolicy="no-referrer-when-downgrade">
-
-      </iframe>
-
-    </div>
-
-  </div>
-
+  <!-- ⚠️ غيّر الرابط ده لرابط نشر Apps Script بتاعك (ينتهي بـ /exec) -->
+  <iframe
+    id="appFrame"
+    src="ضع_رابط_نشر_Apps_Script_هنا"
+    allow="clipboard-write; microphone"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
 
   <script>
+    var frame = document.getElementById('appFrame');
+    var loading = document.getElementById('loadingScreen');
+    frame.addEventListener('load', function () {
+      loading.classList.add('hidden');
+    });
+    // حماية احتياطية: لو حصل تأخير غير متوقع، اخفِ شاشة التحميل بعد 8 ثوانٍ برضه
+    setTimeout(function () { loading.classList.add('hidden'); }, 8000);
 
-    const frame =
-      document.getElementById('appFrame');
-
-    const loading =
-      document.getElementById('loadingScreen');
-
-
-    /*
-     * عند تحميل التطبيق
-     */
-
-    frame.addEventListener(
-      'load',
-      function () {
-
-        setTimeout(
-          function () {
-
-            loading.classList.add('hidden');
-
-          },
-          300
-        );
-
+    // استقبال طلبات التنقّل من داخل النظام — بنغيّر مصدر الإطار مباشرة بدل تنقّل الصفحة
+    // بالكامل، فرابط khorfakkan-portal.pages.dev يفضل ثابت في المتصفح مهما تنقّلت جوّه النظام
+    window.addEventListener('message', function (event) {
+      if (event.data && event.data.type === 'khorfakkanNavigate' && event.data.url) {
+        frame.src = event.data.url;
+        if (event.source) {
+          try { event.source.postMessage({ type: 'khorfakkanNavigateAck' }, '*'); } catch (e) { /* تجاهل */ }
+        }
       }
-    );
-
-
-    /*
-     * حماية من تأخر التحميل
-     */
-
-    setTimeout(
-      function () {
-
-        loading.classList.add('hidden');
-
-      },
-      8000
-    );
-
-
-    /*
-     * استقبال التنقل من Sidebar.html
-     *
-     * Sidebar يرسل:
-     *
-     * KHORFAKKAN_NAVIGATE
-     */
-
-    window.addEventListener(
-      'message',
-      function (event) {
-
-        const data = event.data;
-
-        if (!data) {
-          return;
-        }
-
-
-        if (
-          data.type !==
-          'KHORFAKKAN_NAVIGATE'
-        ) {
-          return;
-        }
-
-
-        const page =
-          data.page;
-
-
-        const allowedPages = [
-          'Dashboard',
-          'Requests',
-          'Admin',
-          'Statistics',
-          'Assistant'
-        ];
-
-
-        if (
-          !allowedPages.includes(page)
-        ) {
-          return;
-        }
-
-
-        /*
-         * نغيّر الصفحة داخل iframe فقط
-         *
-         * ولا نغيّر عنوان الموقع الرئيسي
-         */
-
-        loading.classList.remove('hidden');
-
-
-        const base =
-          'https://script.google.com/macros/s/AKfycbxH3Q99G0dM0xxWwKSOO3Lds9HJnPi0UG_JCpzHXRAEx3o2tf18mI0Zfws7T0bjsKlNLg/exec';
-
-
-        frame.src =
-          base +
-          '?page=' +
-          encodeURIComponent(page) +
-          '&_r=' +
-          Date.now();
-
-      }
-    );
-
+    });
   </script>
 
-
 </body>
-
 </html>
